@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BtnSlider } from "../../../components/btnSlider";
 import { UseInfo } from "../../../context/context";
+import { PokeObject } from "../../../typing";
 import { AsideContainer } from "./style";
 
 const types: Array<string> = ["normal", "fighting", "flying", "ground", "ghost", "fire", "grass",
@@ -14,7 +15,7 @@ export function Aside() {
     new Array(types.length).fill(false)
   );
 
-  const handleOnChange = (position: number, event: any) => {
+  const handleOnChange = (position: number) => {
     setPokeCheck([])
     setPokeSearch(pokeInfos)
 
@@ -24,9 +25,9 @@ export function Aside() {
 
     setCheckedState(updatedCheckedState)
 
-    let listTemp: string[] = getSelectedTypes(updatedCheckedState)
+    let listTemp: Array<string> = getSelectedTypes(updatedCheckedState)
     setList(getSelectedTypes(updatedCheckedState))
-    let pokeTemp: string[] = [];
+    let pokeTemp: Array<PokeObject> = [];
 
     if(restrict){
       pokeTemp = checkFilterByType(listTemp)
@@ -34,13 +35,12 @@ export function Aside() {
       pokeTemp = checkFilter(listTemp)
     }
 
+    setPokeSearch(pokeTemp)
     setPokeCheck(pokeTemp)
 
-    if (pokeTemp.length > 0) {
-      setPokeSearch(pokeTemp)
-      return
+    if (pokeTemp.length === 0 && !updatedCheckedState.includes(true)) {
+      setPokeSearch(pokeInfos)
     }
-    setPokeSearch(pokeInfos)
 
   };
 
@@ -56,8 +56,8 @@ export function Aside() {
   }
 
   function checkFilter(array: string[]) {
-    var arrayTemp: any = [];
-    pokeInfos.filter(function (pokemon: any) {
+    var arrayTemp: Array<PokeObject> = [];
+    pokeInfos.filter(function (pokemon: PokeObject) {
       if (array.includes(pokemon.type[0]) || array.includes(pokemon.type[1])
         && pokemon.type[1]) {
         arrayTemp.push(pokemon)
@@ -68,20 +68,20 @@ export function Aside() {
   }
 
   function checkFilterByType(array: string[]) {
-    var arrayTemp: string[] = [];
+    var arrayTemp: Array<PokeObject> = [];
 
-    pokeInfos.filter(function (pokemon:any) {
+    pokeInfos.filter(function (pokemon:PokeObject) {
       var isAvailable:boolean = true
 
-      if (array.length == 1) {
-        if (pokemon.type.length == 1) {
+      if (array.length === 1) {
+        if (pokemon.type.length === 1) {
           array[0] != pokemon.type[0] && (isAvailable = false)
         }else{
           isAvailable = false
         }
       } else {
         array.forEach((item) => {
-          if (item == pokemon.type[0] || (item == pokemon.type[1] && pokemon.type[1])) {
+          if (item == pokemon.type[0] || (item === pokemon.type[1] && pokemon.type[1])) {
 
           } else {
             isAvailable = false
@@ -106,7 +106,7 @@ export function Aside() {
             <div key={pokeType + Math.random()}>
               <input type={'checkbox'} id={pokeType} name={pokeType}
                 checked={checkedState[index]}
-                onChange={(event) => handleOnChange(index, event)} />
+                onChange={(event) => handleOnChange(index)} />
               <label htmlFor={pokeType}>{pokeType}</label>
             </div>
           ))}

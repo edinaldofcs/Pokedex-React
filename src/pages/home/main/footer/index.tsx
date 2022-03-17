@@ -2,19 +2,15 @@ import { useEffect, useState } from "react";
 import { UseInfo } from "../../../../context/context";
 import { FooterMainBtn } from "./style"
 
-
-// const amount: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
 export function FooterMain() {
   const { pokeSearch } = UseInfo();
   const { firstPokemonNumber, setFirstPokemonNumber } = UseInfo();
   const { maxPokemonsPerPage, setMaxPokemonsPerPage } = UseInfo();
   const { amount } = UseInfo();
-  const [buttonsValues, setButtonsValues] = useState(1);
 
-  const [buttonsText, setButtonText]: any = useState(1);
-  const [pageAmount, setPageAmount]: any = useState();
-
+  const [buttonsValues, setButtonsValues] = useState<number>(1);
+  const [buttonsText, setButtonText] = useState<number>(1);
+  const [pageAmount, setPageAmount]= useState<number>(0);
   const [btnAmount, setBtnAmount] = useState<number[]>([1, 2, 3, 4]);
 
   useEffect(() => {
@@ -29,15 +25,10 @@ export function FooterMain() {
 
 
   }, [pokeSearch]);
-
-  function teste() {
-    console.log(btnAmount);
-
-  }
-
+ 
   function updateValues() {
     let amountButtons: number = Math.floor(pokeSearch.length / amount)
-    let rest = pokeSearch.length % pokeSearch !== 0 ? 1 : 0
+    let rest: number = pokeSearch.length % pokeSearch !== 0 ? 1 : 0
     amountButtons += rest
     setPageAmount(amountButtons)
 
@@ -50,7 +41,7 @@ export function FooterMain() {
   }
 
   function createButtons(num: number): number[] {
-    let array: number[] = []
+    let array: Array<number> = []
     for (let i = 0; i < num; i++) {
       array.push(i + 1)
     }
@@ -59,7 +50,7 @@ export function FooterMain() {
   }
 
   function changeUp() {
-    if(btnAmount.length == 0)return
+    if(btnAmount.length === 0)return
     updateValues();
     if (buttonsText + btnAmount[btnAmount.length - 1] - 1 === pageAmount && buttonsValues === btnAmount[btnAmount.length - 1]) return
     setFirstPokemonNumber(firstPokemonNumber + amount)

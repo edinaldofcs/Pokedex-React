@@ -1,16 +1,17 @@
 import React, { createContext, useState, useContext } from 'react'
+import { PokeObject } from '../typing';
 
-const PokeContext = createContext();
+const PokeContext = createContext<any>('');
 
-export default function ContextProvider({ children }) {
-  const [pokeInfos, setPokeInfos] = useState();
-  const [pokeSearch, setPokeSearch] = useState();
-  const [firstPokemonNumber, setFirstPokemonNumber] = useState(0);
-  const [amount, setAmount] = useState(12);
-  const [maxPokemonsPerPage, setMaxPokemonsPerPage] = useState(amount);
-  const [pokeCheck, setPokeCheck] = useState([]);
-  const [restrict, setRestrict] = useState(false);
-  const [list, setList] = useState([]);
+export default function ContextProvider({ children }:any) {
+  const [pokeInfos, setPokeInfos] = useState<PokeObject[]>([]);
+  const [pokeSearch, setPokeSearch] = useState<PokeObject[]>([]);
+  const [firstPokemonNumber, setFirstPokemonNumber] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(12); 
+  const [maxPokemonsPerPage, setMaxPokemonsPerPage] = useState<number>(amount);
+  const [pokeCheck, setPokeCheck] = useState<PokeObject[]>([]);
+  const [restrict, setRestrict] = useState<boolean>(false);
+  const [list, setList] = useState<string[]>([]);
   
 
 
@@ -18,7 +19,7 @@ export default function ContextProvider({ children }) {
     <PokeContext.Provider
       value={{
         pokeInfos, setPokeInfos, pokeSearch, setPokeSearch,
-        firstPokemonNumber, setFirstPokemonNumber, pokeSearch, maxPokemonsPerPage, setMaxPokemonsPerPage, amount, setAmount, pokeCheck, setPokeCheck
+        firstPokemonNumber, setFirstPokemonNumber, maxPokemonsPerPage, setMaxPokemonsPerPage, amount, setAmount, pokeCheck, setPokeCheck
         , restrict, setRestrict, list, setList
       }}
     >

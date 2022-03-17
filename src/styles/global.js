@@ -34,27 +34,11 @@ export const Theme = {
   }
 }
 
-export const RGBAConverter = (hex:string):string => {
-  var r:string = `${parseInt((hex[1] + hex[2]), 16)}`
-  var g:string = `${parseInt((hex[3] + hex[4]), 16)}`
-  var b:string = `${parseInt((hex[5] + hex[6]), 16)}`
-  var RGBA:string = `rgba(${r},${g},${b},0.3)`
+export const RGBAConverter = (hex) => {
+  var r = `${parseInt((hex[1] + hex[2]), 16)}`
+  var g = `${parseInt((hex[3] + hex[4]), 16)}`
+  var b = `${parseInt((hex[5] + hex[6]), 16)}`
+  var RGBA = `rgba(${r},${g},${b},0.3)`
   return RGBA
 }
 
-// interface Theme{
-//   colors: {
-//     primary: string,
-//     secondary: string,
-//     backgrounds:{
-//       primary: string,
-//       secondary?: string,
-//     }
-//     shadows:{
-//       primary: string,
-//     },
-//     text:{
-//       primary: string,
-//     }
-//   }
-// }

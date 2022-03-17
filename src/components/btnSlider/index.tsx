@@ -1,37 +1,38 @@
 import { UseInfo } from "../../context/context";
+import { PokeObject } from "../../typing";
 import { SliderContainer } from "./style";
 
 
 export function BtnSlider() {
   const { restrict, setRestrict } = UseInfo();
   const { pokeInfos } = UseInfo()
-  const { pokeSearch, setPokeSearch } = UseInfo();
-  const { pokeCheck, setPokeCheck } = UseInfo();
+  const { setPokeSearch } = UseInfo();
+  const { setPokeCheck } = UseInfo();
   const { list } = UseInfo();
 
   function handleChange() {
     setPokeCheck([])
     const validate: boolean = !restrict
 
-    let pokeFilter: string[]
+    let pokeFilter: Array<PokeObject>
+    
     if (validate) {
-      pokeFilter = checkFilterByType(list)
-      setPokeCheck(pokeFilter)
-      setPokeSearch(pokeFilter)
-      setRestrict(!restrict)
-      return
+      pokeFilter = checkFilterByType(list)        
+    }else{
+      pokeFilter = checkFilter(list)
     }
 
-    pokeFilter = checkFilter(list)
     setPokeCheck(pokeFilter)
-    setPokeSearch(pokeFilter)
-
     setRestrict(!restrict)
+
+    if(list.length === 0 && !validate) return setPokeSearch(pokeInfos )      
+    
+    setPokeSearch(pokeFilter)
   }
 
   function checkFilter(array: string[]) {
-    var arrayTemp: any = [];
-    pokeInfos.filter(function (pokemon: any) {
+    var arrayTemp: Array<PokeObject> = [];
+    pokeInfos.filter(function (pokemon: PokeObject) {
       if (array.includes(pokemon.type[0]) || array.includes(pokemon.type[1])
         && pokemon.type[1]) {
         arrayTemp.push(pokemon)
@@ -42,12 +43,12 @@ export function BtnSlider() {
   }
 
   function checkFilterByType(array: string[]) {
-    var arrayTemp: string[] = [];
+    var arrayTemp: Array<PokeObject> = [];
 
-    pokeInfos.filter(function (pokemon: any) {
+    pokeInfos.filter(function (pokemon: PokeObject) {
       var isAvailable: boolean = true
 
-      if (array.length == 1) {
+      if (array.length === 1) {
         if (pokemon.type.length == 1) {
           array[0] != pokemon.type[0] && (isAvailable = false)
         } else {
@@ -55,7 +56,7 @@ export function BtnSlider() {
         }
       } else {
         array.forEach((item) => {
-          if (item == pokemon.type[0] || (item == pokemon.type[1] && pokemon.type[1])) {
+          if (item === pokemon.type[0] || (item === pokemon.type[1] && pokemon.type[1])) {
 
           } else {
             isAvailable = false

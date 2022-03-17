@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { UseInfo } from "../../context/context";
 import { SearchContainer } from "./style";
 
