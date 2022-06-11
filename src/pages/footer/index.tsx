@@ -3,7 +3,7 @@ import { FooterContainer } from "./style"
 export function Footer() {
   return (
     <FooterContainer>
-      <h2>AWARI</h2>
+      <h2>EdinaldoFCS</h2>
     </FooterContainer>
   )
 }
